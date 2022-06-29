@@ -63,19 +63,7 @@ BOOL gotUpdates = false;
     if (gotUpdates) return; // Ensure we only display one update
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
-    NSString *accuracyLevel = @"Not Captured";
-    if (newLocation.horizontalAccuracy < 250){
-        NSString *accuracyLevel = @"High";
-    }
-    else{
-        NSString *accuracyLevel = @"Low";
-    }
-    NSString *locationCaptureType = @"MLS";
-    IFPrint(@"%i,%i,%i,%i,%i",newLocation.coordinate.latitude,newLocation.coordinate.longitude,accuracyLevel,newLocation.horizontalAccuracy,locationCaptureType);
-    // IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
-    // IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
-    // IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
-    // IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
+    IFPrint(@"%f,%f,%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.horizontalAccuracy);
 
     if ([self hasApiKeyFlag]) {
         NSString* apiKey = [self openCageApiKey];
