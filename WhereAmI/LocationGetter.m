@@ -64,14 +64,15 @@ BOOL gotUpdates = false;
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
     if (newLocation.horizontalAccuracy < 250){
-        var accuracyLevel = "High"
+        char accuracyLevel = "High";
     }
     else{
-        var accuracyLevel = "Low"
+        char accuracyLevel = "Low";
     }
-    var locationType = "MLS"
-    var comma = ",";
-    var LocOutput = newLocation.coordinate.latitude + comma + newLocation.coordinate.longitude + accuracyLevel + comma + newLocation.horizontalAccuracy + comma + 
+    char locationType = "MLS";
+    char comma = ",";
+    char LocOutput = newLocation.coordinate.latitude + comma + newLocation.coordinate.longitude + accuracyLevel + comma + newLocation.horizontalAccuracy + comma + locationType;
+    IFPrint(LocOutput);
     // IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
     // IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
     // IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
