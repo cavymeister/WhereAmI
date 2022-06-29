@@ -14,10 +14,10 @@
 void IFPrint (NSString *format, ...) {
     va_list args;
     va_start(args, format);
-    
+
     fputs([[[NSString alloc] initWithFormat:format arguments:args] UTF8String], stdout);
     fputs("\n", stdout);
-    
+
     va_end(args);
 }
 
@@ -30,14 +30,14 @@ BOOL gotUpdates = false;
     self.manager.delegate = self;
     self.shouldExit = NO;
     self.exitCode = 1;
-    
+
     return self;
 }
 
 -(void)printCurrentLocation {
     self.manager.desiredAccuracy = kCLLocationAccuracyBest;
     self.manager.distanceFilter = kCLDistanceFilterNone;
-        
+
     if (![CLLocationManager locationServicesEnabled]) {
         IFPrint(@"Location services are not enabled, quitting.");
         self.exitCode = 1;
@@ -127,7 +127,7 @@ BOOL gotUpdates = false;
     else {
         IFPrint(@"Error getting location data. %@", error);
     }
-       
+
     self.exitCode = 1;
     self.shouldExit = 1;
 }
@@ -140,7 +140,7 @@ BOOL gotUpdates = false;
 
 - (nullable NSString *)openCageApiKey {
     NSArray<NSString *>* arguments = NSProcessInfo.processInfo.arguments;
-    
+
     NSUInteger apiKeyFlagIndex = [arguments indexOfObject: @"-k"];
     if (arguments.count > apiKeyFlagIndex + 1) {
         NSString* apiKey = arguments[apiKeyFlagIndex + 1];
