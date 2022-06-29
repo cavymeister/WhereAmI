@@ -7,7 +7,7 @@
 //
 
 #import "LocationGetter.h"
-#import "OpenCageAPI.h"
+// #import "OpenCageAPI.h"
 #import <CoreWLAN/CoreWLAN.h>
 
 // NSLog replacement from http://stackoverflow.com/a/3487392/1376063
@@ -64,35 +64,6 @@ BOOL gotUpdates = false;
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
     IFPrint(@"%f,%f,%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.horizontalAccuracy);
-
-    if ([self hasApiKeyFlag]) {
-        NSString* apiKey = [self openCageApiKey];
-        if (!apiKey) {
-            IFPrint(@"API key not found.");
-            self.exitCode = 1;
-            self.shouldExit = 1;
-            return;
-        }
-
-        OpenCageAPI *api = [[OpenCageAPI alloc] initWithApiKey:apiKey];
-
-        [api sendGeoCodeRequestWithLatitude:newLocation.coordinate.latitude andLongitude:newLocation.coordinate.longitude completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
-            if (response) {
-                IFPrint(response);
-                self.exitCode = 0;
-                self.shouldExit = 1;
-            }
-            else {
-                IFPrint(error.localizedDescription);
-                self.exitCode = 1;
-                self.shouldExit = 1;
-            }
-        }];
-    }
-    else {
-        self.exitCode = 0;
-        self.shouldExit = 1;
-    }
 }
 
 -(BOOL)isWifiEnabled {
@@ -117,25 +88,6 @@ BOOL gotUpdates = false;
 
     self.exitCode = 1;
     self.shouldExit = 1;
-}
-
-- (BOOL)hasApiKeyFlag {
-    NSArray<NSString *>* arguments = NSProcessInfo.processInfo.arguments;
-    NSUInteger apiKeyFlagIndex = [arguments indexOfObject: @"-k"];
-    return apiKeyFlagIndex != NSNotFound;
-}
-
-- (nullable NSString *)openCageApiKey {
-    NSArray<NSString *>* arguments = NSProcessInfo.processInfo.arguments;
-
-    NSUInteger apiKeyFlagIndex = [arguments indexOfObject: @"-k"];
-    if (arguments.count > apiKeyFlagIndex + 1) {
-        NSString* apiKey = arguments[apiKeyFlagIndex + 1];
-        if (apiKey.length > 0) {
-            return apiKey;
-        }
-    }
-    return nil;
 }
 
 @end
