@@ -63,15 +63,16 @@ BOOL gotUpdates = false;
     if (gotUpdates) return; // Ensure we only display one update
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
+    NSString *accuracyLevel = @"High";
     if (newLocation.horizontalAccuracy < 250){
-        char accuracyLevel = "High";
+        NSString *accuracyLevel = @"High";
     }
     else{
-        char accuracyLevel = "Low";
+        NSString *accuracyLevel = @"Low";
     }
-    char locationType = "MLS";
-    char comma = ",";
-    char LocOutput = newLocation.coordinate.latitude + comma + newLocation.coordinate.longitude + accuracyLevel + comma + newLocation.horizontalAccuracy + comma + locationType;
+    NSString *locationType = @"MLS";
+    NSString *comma = @",";
+    NSString *LocOutput = newLocation.coordinate.latitude + comma + newLocation.coordinate.longitude + accuracyLevel + comma + newLocation.horizontalAccuracy + comma + locationType;
     IFPrint(LocOutput);
     // IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
     // IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
