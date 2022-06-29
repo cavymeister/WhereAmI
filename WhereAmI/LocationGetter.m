@@ -63,12 +63,20 @@ BOOL gotUpdates = false;
     if (gotUpdates) return; // Ensure we only display one update
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
+    if (newLocation.horizontalAccuracy < 250){
+        var accuracyLevel = "High"
+    }
+    else{
+        var accuracyLevel = "Low"
+    }
+    var locationType = "MLS"
+    var comma = ",";
+    var LocOutput = newLocation.coordinate.latitude + comma + newLocation.coordinate.longitude + accuracyLevel + comma + newLocation.horizontalAccuracy + comma + 
+    // IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
+    // IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
+    // IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
+    // IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
 
-    IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
-    IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
-    IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
-    IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
-    
     if ([self hasApiKeyFlag]) {
         NSString* apiKey = [self openCageApiKey];
         if (!apiKey) {
@@ -77,9 +85,9 @@ BOOL gotUpdates = false;
             self.shouldExit = 1;
             return;
         }
-        
+
         OpenCageAPI *api = [[OpenCageAPI alloc] initWithApiKey:apiKey];
-        
+
         [api sendGeoCodeRequestWithLatitude:newLocation.coordinate.latitude andLongitude:newLocation.coordinate.longitude completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
             if (response) {
                 IFPrint(response);
