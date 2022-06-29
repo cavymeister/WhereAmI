@@ -64,6 +64,8 @@ BOOL gotUpdates = false;
     gotUpdates = true;
     [self.manager stopUpdatingLocation];
     IFPrint(@"%f,%f,%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude,newLocation.horizontalAccuracy);
+    self.exitCode = 0;
+    self.shouldExit = 1;
 }
 
 -(BOOL)isWifiEnabled {
